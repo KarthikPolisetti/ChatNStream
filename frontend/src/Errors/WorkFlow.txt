@@ -1,0 +1,79 @@
+Here is a detailed, file-and-line-based workflow for your signup and authentication process, using your actual code and file structure. This will help you explain exactly which code runs, from which file, at each step:
+
+1. User Opens the App
+File: src/main.jsx
+What happens:
+The app is wrapped in <BrowserRouter> and <QueryClientProvider>.
+The root component is App.jsx.
+
+2. App Checks If User Is Logged In
+File: src/App.jsx
+Lines: Top of the file, inside the App component.
+What happens:
+The custom hook useAuthUser is called:
+This hook uses React Query to call the backend /auth/me endpoint (via getAuthUser).
+If isLoading is true, it shows the PageLoader.
+If authUser exists, the user is considered logged in.
+
+
+3. App Decides Which Page to Show
+File: src/App.jsx
+Lines: Inside the <Routes> block.
+What happens:
+If authUser is present, the user is sent to the HomePage (/).
+If not, the user is sent to /login or /signup:
+
+
+4. User Clicks "Sign Up" and Fills the Form
+File: src/pages/SignUpPage.jsx
+What happens:
+The user fills in their details.
+When the form is submitted, handleSignup is called:
+
+
+5. Signup Mutation Triggers API Call
+File: src/pages/SignUpPage.jsx
+Lines: Where useMutation is used.
+What happens:
+The mutation function is signup:
+This sends a POST request to your backend at /api/auth/signup with the user's data.
+
+
+6. Backend Handles Signup
+File: backend/src/controllers/auth.controllers.js
+Function: signup
+What happens:
+Validates the data.
+Checks if the email already exists.
+Hashes the password and creates a new user in MongoDB.
+Sets a JWT cookie and returns the user info.
+
+
+7. Frontend Handles Signup Success
+File: src/pages/SignUpPage.jsx
+Lines: In the onSuccess handler of useMutation:
+This tells React Query to refetch the "authUser" query (so the app knows the user is now logged in).
+Then, it redirects the user to the HomePage (/).
+
+
+8. App Shows HomePage
+File: src/App.jsx
+What happens:
+Now that authUser is present, the route for / shows the HomePage.
+
+
+Summary Table
+Step	What User Does	What Code Runs	File & Line(s)
+1	Opens app	App loads, checks auth	main.jsx, App.jsx
+2	App checks login	useAuthUser fetches /auth/me	useAuthUser.js
+3	Sees login/signup	Routing logic	App.jsx
+4	Fills signup form	handleSignup runs	SignUpPage.jsx
+5	Clicks Sign Up	signupMutation triggers API	SignUpPage.jsx, api.js
+6	Backend creates user	signup controller	auth.controllers.js
+7	Signup success	onSuccess refetches user, redirects	SignUpPage.jsx
+8	Sees homepage	HomePage renders	HomePage.jsx
+This is the exact, code-based workflow for your signup and login process, with file and line references.
+You can now explain to anyone, step by step, what code runs and where, for each part of the user journey!
+
+
+

@@ -1,0 +1,7 @@
+Errors i found and be cautious during the developing 
+1)While developing the signup page
+*While developing the signup page i found the error as <Link > error that is due to i didnt imported it 
+*at the time of the development of the signup page i found  the error such as the <browserRouter> it was wrapped both in the main.jsx and app.
+
+from the SignUpPage.jsx
+line - 14 to 21
